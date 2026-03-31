@@ -158,15 +158,16 @@ data:
 
 ## Sensors
 
-Each configured location exposes three sensors, grouped under a device named after the location:
+Each configured location exposes four sensors, grouped under a device named after the location:
 
-| Sensor | State | Extra attributes |
-|--------|-------|-----------------|
-| **Average Rating** | Float (e.g. `4.60`) | — |
-| **Review Count** | Integer (e.g. `32`) | — |
-| **Latest Review** | Star rating 1–5 | `reviewer`, `comment`, `created` |
+| Sensor | State | Attributes | Poll interval |
+|--------|-------|------------|---------------|
+| **Average Rating** | Float (e.g. `4.60 stars`) | — | 1 h |
+| **Review Count** | Integer (e.g. `32 reviews`) | — | 1 h |
+| **Latest Review** | Star rating 1–5 | `reviewer`, `comment`, `created` | 1 h |
+| **Status** | `open` / `closed_temporarily` / `closed_permanently` | `phone`, `website`, `address`, `description` | 12 h |
 
-Sensors are updated **once per hour**. If the reviews API is temporarily unavailable, sensors show as `unavailable` until the next successful poll — services continue to work regardless.
+If an API poll fails, affected sensors show as `unavailable` until the next successful refresh — services (posting) continue to work regardless.
 
 ---
 
