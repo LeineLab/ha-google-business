@@ -96,7 +96,12 @@ class OAuth2FlowHandler(AbstractOAuth2FlowHandler, domain=DOMAIN):
     ) -> Any:
         """Show info about pending API access and let user add the entry anyway."""
         if user_input is None:
-            return self.async_show_form(step_id="api_access_pending")
+            return self.async_show_form(
+                step_id="api_access_pending",
+                description_placeholders={
+                    "api_access_url": "https://support.google.com/business/contact/api_default"
+                },
+            )
         return self.async_create_entry(
             title="Google Business Profile (pending)",
             data=self._oauth_data,

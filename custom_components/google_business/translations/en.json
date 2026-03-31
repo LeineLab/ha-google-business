@@ -16,7 +16,7 @@
       },
       "api_access_pending": {
         "title": "API access pending approval",
-        "description": "The Google Business API quota is currently 0 — your access request has not been approved yet.\n\nYou can [request basic API access](https://support.google.com/business/contact/api_default) if you haven't already.\n\nClick **Submit** to add the integration now. It will activate automatically once Google approves your request — no need to re-authenticate."
+        "description": "The Google Business API quota is currently 0 — your access request has not been approved yet.\n\nYou can [request basic API access]({api_access_url}) if you haven't already.\n\nClick **Submit** to add the integration now. It will activate automatically once Google approves your request — no need to re-authenticate."
       }
     },
     "abort": {
