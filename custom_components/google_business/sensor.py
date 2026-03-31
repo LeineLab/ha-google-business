@@ -121,7 +121,14 @@ class GoogleBusinessInfoSensor(_GoogleBusinessSensor):
     """Business status with contact details and address as attributes."""
 
     _attr_translation_key = "status"
-    _attr_icon = "mdi:storefront"
+
+    @property
+    def icon(self) -> str:
+        return {
+            "open": "mdi:storefront-check",
+            "closed_temporarily": "mdi:storefront-minus",
+            "closed_permanently": "mdi:storefront-remove",
+        }.get(self.native_value or "", "mdi:storefront")
 
     def __init__(self, coordinator: GoogleBusinessInfoCoordinator, entry: ConfigEntry) -> None:
         super().__init__(coordinator, entry)
