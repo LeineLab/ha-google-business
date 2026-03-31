@@ -113,3 +113,8 @@ class GoogleBusinessAPI:
         """Delete a local post by its resource name."""
         url = f"{API_BASE}{post_name}"
         await self._request("DELETE", url)
+
+    async def fetch_reviews(self, page_size: int = 1) -> dict:
+        """Fetch reviews for the configured location. Returns aggregate fields plus latest reviews."""
+        url = f"{API_BASE}{self.location_name}/reviews"
+        return await self._request("GET", url, params={"pageSize": page_size})

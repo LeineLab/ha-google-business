@@ -8,10 +8,16 @@ Manage your Google Business Profile posts directly from Home Assistant automatio
 
 1. Go to the [Google Cloud Console](https://console.cloud.google.com/)
 2. Create a new project (or select an existing one)
-3. Enable the following APIs:
-   - **Google My Business API** (`mybusiness.googleapis.com`)
-   - **My Business Account Management API** (`mybusinessaccountmanagement.googleapis.com`)
-   - **My Business Business Information API** (`mybusinessbusinessinformation.googleapis.com`)
+
+### 2. Enable Required APIs
+
+In the Cloud Console, navigate to **APIs & Services → Library** and enable all three:
+
+| API | Used for |
+|-----|----------|
+| **Google My Business API** (`mybusiness.googleapis.com`) | Creating/updating/deleting posts, fetching reviews |
+| **My Business Account Management API** (`mybusinessaccountmanagement.googleapis.com`) | Listing accounts during setup |
+| **My Business Business Information API** (`mybusinessbusinessinformation.googleapis.com`) | Listing locations during setup |
 
 > **Note:** The Google My Business API requires special access. Submit an access request at
 > https://support.google.com/business/contact/api_default
@@ -20,7 +26,7 @@ Manage your Google Business Profile posts directly from Home Assistant automatio
 > You can add the integration before access is approved. It will show as **"pending"** and
 > activate automatically once Google approves your request — no need to re-authenticate.
 
-### 2. OAuth 2.0 Credentials
+### 3. OAuth 2.0 Credentials
 
 1. In the Cloud Console, navigate to **APIs & Services → Credentials**
 2. Click **Create Credentials → OAuth 2.0 Client ID**
@@ -147,6 +153,20 @@ action: google_business.delete_post
 data:
   post_name: "{{ post_result.post_name }}"
 ```
+
+---
+
+## Sensors
+
+Each configured location exposes three sensors, grouped under a device named after the location:
+
+| Sensor | State | Extra attributes |
+|--------|-------|-----------------|
+| **Average Rating** | Float (e.g. `4.60`) | — |
+| **Review Count** | Integer (e.g. `32`) | — |
+| **Latest Review** | Star rating 1–5 | `reviewer`, `comment`, `created` |
+
+Sensors are updated **once per hour**. If the reviews API is temporarily unavailable, sensors show as `unavailable` until the next successful poll — services continue to work regardless.
 
 ---
 

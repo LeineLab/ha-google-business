@@ -3,11 +3,13 @@ from __future__ import annotations
 
 import logging
 import time
+from datetime import timedelta
 from typing import Any
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, ServiceCall, ServiceResponse, SupportsResponse
 from homeassistant.exceptions import ConfigEntryNotReady, ServiceValidationError
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.config_entry_oauth2_flow import (
     OAuth2Session,
@@ -30,9 +32,30 @@ from .const import (
 
 _LOGGER = logging.getLogger(__name__)
 
+PLATFORMS = ["sensor"]
 _RESOLVE_RETRY_INTERVAL = 3600  # seconds between Google API calls while waiting for quota approval
 
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
+
+class GoogleBusinessCoordinator(DataUpdateCoordinator):
+    """Polls the reviews endpoint once per hour for aggregate rating data."""
+
+    def __init__(self, hass: HomeAssistant, api: GoogleBusinessAPI) -> None:
+        """Initialize coordinator."""
+        super().__init__(
+            hass,
+            _LOGGER,
+            name=DOMAIN,
+            update_interval=timedelta(hours=1),
+        )
+        self.api = api
+
+    async def _async_update_data(self) -> dict:
+        try:
+            return await self.api.fetch_reviews(page_size=1)
+        except GoogleBusinessError as err:
+            raise UpdateFailed(str(err)) from err
 
 
 async def async_setup(hass: HomeAssistant, config: dict) -> bool:
@@ -50,9 +73,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     if not location_name:
         location_name = await _resolve_location(hass, entry, oauth_session)
     api = GoogleBusinessAPI(oauth_session, location_name)
+    coordinator = GoogleBusinessCoordinator(hass, api)
+    await coordinator.async_refresh()
 
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = api
+    entry.runtime_data = coordinator
+
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     # Register services once across all entries
     if not hass.data[DOMAIN].get(SERVICES_REGISTERED):
@@ -64,6 +92,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
+    await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
     hass.data[DOMAIN].pop(entry.entry_id, None)
     hass.data[DOMAIN].pop(f"_last_resolve_{entry.entry_id}", None)
 
