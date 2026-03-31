@@ -1,0 +1,157 @@
+{
+  "config": {
+    "step": {
+      "pick_implementation": {
+        "title": "Set up Google Business Profile"
+      },
+      "select_location": {
+        "title": "Select your Business location",
+        "data": {
+          "location_name": "Location"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Re-authenticate Google Business Profile",
+        "description": "Your Google Business credentials need to be refreshed. Click the button below to re-authenticate."
+      },
+      "api_access_pending": {
+        "title": "API access pending approval",
+        "description": "The Google Business API quota is currently 0 — your access request has not been approved yet.\n\nYou can [request basic API access](https://support.google.com/business/contact/api_default) if you haven't already.\n\nClick **Submit** to add the integration now. It will activate automatically once Google approves your request — no need to re-authenticate."
+      }
+    },
+    "abort": {
+      "api_not_enabled": "The **Google My Business API** (`mybusiness.googleapis.com`) is not enabled for your Google Cloud project. [Enable it here]({activation_url}), wait a minute for it to propagate, then try adding the integration again.",
+      "no_locations": "No Google Business locations were found for this account.",
+      "cannot_fetch_locations": "Failed to retrieve locations from Google. Check your API access and try again.",
+      "already_configured": "This Google Business location is already configured.",
+      "reauth_successful": "Re-authentication was successful."
+    }
+  },
+  "application_credentials": {
+    "description": "To use Google Business Profile, you need OAuth 2.0 credentials from the [Google Cloud Console]({api_console_url}).\n\n1. Create or select a project\n2. Enable the **My Business API** and **Business Account Management API**\n3. Create an **OAuth 2.0 Client ID** (Web application type)\n4. Add `https://my.home-assistant.io/redirect/oauth` as an authorized redirect URI\n5. Copy the Client ID and Client Secret below"
+  },
+  "services": {
+    "create_post": {
+      "name": "Create post",
+      "description": "Create a new post on your Google Business Profile.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Config entry",
+          "description": "The Google Business Profile config entry (location) to post to. Required when multiple locations are configured."
+        },
+        "post_type": {
+          "name": "Post type",
+          "description": "The type of post to create."
+        },
+        "summary": {
+          "name": "Summary",
+          "description": "The main text body of the post."
+        },
+        "language_code": {
+          "name": "Language code",
+          "description": "BCP-47 language code for the post (e.g. 'en', 'de'). Defaults to 'en'."
+        },
+        "call_to_action_type": {
+          "name": "Call-to-action type",
+          "description": "The type of call-to-action button to include."
+        },
+        "call_to_action_url": {
+          "name": "Call-to-action URL",
+          "description": "The URL for the call-to-action button."
+        },
+        "event_title": {
+          "name": "Event title",
+          "description": "Title for event posts. Required when post type is 'event'."
+        },
+        "event_start": {
+          "name": "Event start",
+          "description": "Start date/time of the event."
+        },
+        "event_end": {
+          "name": "Event end",
+          "description": "End date/time of the event."
+        },
+        "coupon_code": {
+          "name": "Coupon code",
+          "description": "Coupon code for offer posts."
+        },
+        "redeem_online_url": {
+          "name": "Redeem online URL",
+          "description": "URL where the offer can be redeemed online."
+        },
+        "terms_conditions": {
+          "name": "Terms and conditions",
+          "description": "Terms and conditions text for offer posts."
+        }
+      }
+    },
+    "update_post": {
+      "name": "Update post",
+      "description": "Update an existing post on your Google Business Profile.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Config entry",
+          "description": "The Google Business Profile config entry (location) that owns this post."
+        },
+        "post_name": {
+          "name": "Post name",
+          "description": "The resource name of the post to update (e.g. 'accounts/123/locations/456/localPosts/789')."
+        },
+        "summary": {
+          "name": "Summary",
+          "description": "New text body for the post."
+        },
+        "language_code": {
+          "name": "Language code",
+          "description": "BCP-47 language code."
+        },
+        "call_to_action_type": {
+          "name": "Call-to-action type",
+          "description": "Updated call-to-action button type. Use 'none' to remove."
+        },
+        "call_to_action_url": {
+          "name": "Call-to-action URL",
+          "description": "Updated URL for the call-to-action button."
+        },
+        "event_title": {
+          "name": "Event title",
+          "description": "Updated event title."
+        },
+        "event_start": {
+          "name": "Event start",
+          "description": "Updated event start date/time."
+        },
+        "event_end": {
+          "name": "Event end",
+          "description": "Updated event end date/time."
+        },
+        "coupon_code": {
+          "name": "Coupon code",
+          "description": "Updated coupon code."
+        },
+        "redeem_online_url": {
+          "name": "Redeem online URL",
+          "description": "Updated redeem URL."
+        },
+        "terms_conditions": {
+          "name": "Terms and conditions",
+          "description": "Updated terms and conditions."
+        }
+      }
+    },
+    "delete_post": {
+      "name": "Delete post",
+      "description": "Delete a post from your Google Business Profile.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Config entry",
+          "description": "The Google Business Profile config entry (location) that owns this post."
+        },
+        "post_name": {
+          "name": "Post name",
+          "description": "The resource name of the post to delete (e.g. 'accounts/123/locations/456/localPosts/789')."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,139 @@
+create_post:
+  fields:
+    config_entry_id:
+      required: false
+      selector:
+        config_entry:
+          integration: google_business
+    post_type:
+      required: true
+      selector:
+        select:
+          options:
+            - standard
+            - event
+            - offer
+            - alert
+    summary:
+      required: true
+      selector:
+        text:
+          multiline: true
+    language_code:
+      required: false
+      default: en
+      selector:
+        text: {}
+    call_to_action_type:
+      required: false
+      selector:
+        select:
+          options:
+            - none
+            - book
+            - order
+            - learn_more
+            - sign_up
+            - call
+    call_to_action_url:
+      required: false
+      selector:
+        text: {}
+    event_title:
+      required: false
+      selector:
+        text: {}
+    event_start:
+      required: false
+      selector:
+        datetime: {}
+    event_end:
+      required: false
+      selector:
+        datetime: {}
+    coupon_code:
+      required: false
+      selector:
+        text: {}
+    redeem_online_url:
+      required: false
+      selector:
+        text: {}
+    terms_conditions:
+      required: false
+      selector:
+        text:
+          multiline: true
+
+update_post:
+  fields:
+    config_entry_id:
+      required: false
+      selector:
+        config_entry:
+          integration: google_business
+    post_name:
+      required: true
+      selector:
+        text: {}
+    summary:
+      required: false
+      selector:
+        text:
+          multiline: true
+    language_code:
+      required: false
+      selector:
+        text: {}
+    call_to_action_type:
+      required: false
+      selector:
+        select:
+          options:
+            - none
+            - book
+            - order
+            - learn_more
+            - sign_up
+            - call
+    call_to_action_url:
+      required: false
+      selector:
+        text: {}
+    event_title:
+      required: false
+      selector:
+        text: {}
+    event_start:
+      required: false
+      selector:
+        datetime: {}
+    event_end:
+      required: false
+      selector:
+        datetime: {}
+    coupon_code:
+      required: false
+      selector:
+        text: {}
+    redeem_online_url:
+      required: false
+      selector:
+        text: {}
+    terms_conditions:
+      required: false
+      selector:
+        text:
+          multiline: true
+
+delete_post:
+  fields:
+    config_entry_id:
+      required: false
+      selector:
+        config_entry:
+          integration: google_business
+    post_name:
+      required: true
+      selector:
+        text: {}

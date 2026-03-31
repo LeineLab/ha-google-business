@@ -1,0 +1,12 @@
+{
+  "domain": "google_business",
+  "name": "Google Business Profile",
+  "codeowners": ["@LeineLab"],
+  "config_flow": true,
+  "dependencies": ["application_credentials"],
+  "documentation": "https://github.com/LeineLab/ha-google-business",
+  "iot_class": "cloud_push",
+  "integration_type": "service",
+  "issue_tracker": "https://github.com/LeineLab/ha-google-business/issues",
+  "version": "0.1.0"
+}
