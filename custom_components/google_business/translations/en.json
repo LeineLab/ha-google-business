@@ -28,7 +28,7 @@
     }
   },
   "application_credentials": {
-    "description": "To use Google Business Profile, you need OAuth 2.0 credentials from the [Google Cloud Console]({api_console_url}).\n\n1. Create or select a project\n2. Enable the **My Business API** and **Business Account Management API**\n3. Create an **OAuth 2.0 Client ID** (Web application type)\n4. Add `https://my.home-assistant.io/redirect/oauth` as an authorized redirect URI\n5. Copy the Client ID and Client Secret below"
+    "description": "To use Google Business Profile, you need OAuth 2.0 credentials from the [Google Cloud Console]({api_console_url}).\n\n1. Create or select a project\n2. Enable the **My Business API** and **Business Account Management API**\n3. Create an **OAuth 2.0 Client ID** (Web application type)\n4. Add `{redirect_url}` as an authorized redirect URI\n5. Copy the Client ID and Client Secret below"
   },
   "services": {
     "create_post": {

@@ -15,4 +15,5 @@ async def async_get_description_placeholders(hass: HomeAssistant) -> dict[str, s
     """Return description placeholders for the credentials dialog."""
     return {
         "api_console_url": "https://console.cloud.google.com/",
+        "redirect_url": "https://my.home-assistant.io/redirect/oauth",
     }
