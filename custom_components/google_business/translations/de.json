@@ -1,0 +1,178 @@
+{
+  "config": {
+    "step": {
+      "pick_implementation": {
+        "title": "Google Business Profile einrichten"
+      },
+      "select_location": {
+        "title": "Unternehmensstandort auswählen",
+        "data": {
+          "location_name": "Standort"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Google Business Profile erneut authentifizieren",
+        "description": "Deine Google-Business-Zugangsdaten müssen erneuert werden. Klicke auf die Schaltfläche, um dich erneut zu authentifizieren."
+      },
+      "api_access_pending": {
+        "title": "API-Zugang wird noch geprüft",
+        "description": "Das Google-Business-API-Kontingent ist derzeit 0 – deine Zugriffsanfrage wurde noch nicht genehmigt.\n\nFalls noch nicht geschehen, kannst du den [einfachen API-Zugang beantragen]({api_access_url}).\n\nKlicke auf **Absenden**, um die Integration jetzt hinzuzufügen. Sie wird automatisch aktiviert, sobald Google deinen Antrag genehmigt – eine erneute Authentifizierung ist nicht nötig."
+      }
+    },
+    "abort": {
+      "api_not_enabled": "Die **Google My Business API** (`mybusiness.googleapis.com`) ist für dein Google-Cloud-Projekt nicht aktiviert. [Aktiviere sie hier]({activation_url}), warte eine Minute und versuche dann erneut, die Integration hinzuzufügen.",
+      "no_locations": "Für dieses Konto wurden keine Google-Business-Standorte gefunden.",
+      "cannot_fetch_locations": "Die Standorte konnten nicht von Google abgerufen werden. Überprüfe den API-Zugang und versuche es erneut.",
+      "already_configured": "Dieser Google-Business-Standort ist bereits konfiguriert.",
+      "reauth_successful": "Erneute Authentifizierung erfolgreich."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "average_rating": {
+        "name": "Durchschnittsbewertung"
+      },
+      "review_count": {
+        "name": "Anzahl Bewertungen"
+      },
+      "latest_review": {
+        "name": "Neueste Bewertung"
+      },
+      "status": {
+        "name": "Status",
+        "state": {
+          "open": "Geöffnet",
+          "closed_temporarily": "Vorübergehend geschlossen",
+          "closed_permanently": "Dauerhaft geschlossen"
+        }
+      }
+    }
+  },
+  "application_credentials": {
+    "description": "Um Google Business Profile zu nutzen, benötigst du OAuth-2.0-Zugangsdaten aus der [Google Cloud Console]({api_console_url}).\n\n1. Projekt erstellen oder auswählen\n2. Die **My Business API** und die **Business Account Management API** aktivieren\n3. Eine **OAuth-2.0-Client-ID** erstellen (Typ: Webanwendung)\n4. `{redirect_url}` als autorisierten Weiterleitungs-URI hinzufügen\n5. Client-ID und Client-Secret unten eintragen"
+  },
+  "services": {
+    "create_post": {
+      "name": "Beitrag erstellen",
+      "description": "Erstellt einen neuen Beitrag in deinem Google Business Profile.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Konfigurationseintrag",
+          "description": "Der Google-Business-Konfigurationseintrag (Standort), auf dem gepostet werden soll. Erforderlich, wenn mehrere Standorte konfiguriert sind."
+        },
+        "post_type": {
+          "name": "Beitragstyp",
+          "description": "Der Typ des zu erstellenden Beitrags."
+        },
+        "summary": {
+          "name": "Text",
+          "description": "Der Haupttext des Beitrags."
+        },
+        "language_code": {
+          "name": "Sprachcode",
+          "description": "BCP-47-Sprachcode des Beitrags (z. B. 'de', 'en'). Standard: 'en'."
+        },
+        "call_to_action_type": {
+          "name": "Call-to-Action-Typ",
+          "description": "Der Typ der Call-to-Action-Schaltfläche."
+        },
+        "call_to_action_url": {
+          "name": "Call-to-Action-URL",
+          "description": "Die URL für die Call-to-Action-Schaltfläche."
+        },
+        "event_title": {
+          "name": "Veranstaltungstitel",
+          "description": "Titel für Veranstaltungsbeiträge. Erforderlich, wenn der Beitragstyp 'event' ist."
+        },
+        "event_start": {
+          "name": "Veranstaltungsbeginn",
+          "description": "Startdatum/-uhrzeit der Veranstaltung."
+        },
+        "event_end": {
+          "name": "Veranstaltungsende",
+          "description": "Enddatum/-uhrzeit der Veranstaltung."
+        },
+        "coupon_code": {
+          "name": "Gutscheincode",
+          "description": "Gutscheincode für Angebotsbeiträge."
+        },
+        "redeem_online_url": {
+          "name": "Online-Einlöse-URL",
+          "description": "URL, unter der das Angebot online eingelöst werden kann."
+        },
+        "terms_conditions": {
+          "name": "Allgemeine Geschäftsbedingungen",
+          "description": "AGB-Text für Angebotsbeiträge."
+        }
+      }
+    },
+    "update_post": {
+      "name": "Beitrag aktualisieren",
+      "description": "Aktualisiert einen vorhandenen Beitrag in deinem Google Business Profile.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Konfigurationseintrag",
+          "description": "Der Google-Business-Konfigurationseintrag (Standort), zu dem dieser Beitrag gehört."
+        },
+        "post_name": {
+          "name": "Beitragsname",
+          "description": "Der Ressourcenname des zu aktualisierenden Beitrags (z. B. 'accounts/123/locations/456/localPosts/789')."
+        },
+        "summary": {
+          "name": "Text",
+          "description": "Neuer Text für den Beitrag."
+        },
+        "language_code": {
+          "name": "Sprachcode",
+          "description": "BCP-47-Sprachcode."
+        },
+        "call_to_action_type": {
+          "name": "Call-to-Action-Typ",
+          "description": "Aktualisierter Call-to-Action-Typ. 'none' zum Entfernen."
+        },
+        "call_to_action_url": {
+          "name": "Call-to-Action-URL",
+          "description": "Aktualisierte URL für die Call-to-Action-Schaltfläche."
+        },
+        "event_title": {
+          "name": "Veranstaltungstitel",
+          "description": "Aktualisierter Veranstaltungstitel."
+        },
+        "event_start": {
+          "name": "Veranstaltungsbeginn",
+          "description": "Aktualisiertes Startdatum/-uhrzeit."
+        },
+        "event_end": {
+          "name": "Veranstaltungsende",
+          "description": "Aktualisiertes Enddatum/-uhrzeit."
+        },
+        "coupon_code": {
+          "name": "Gutscheincode",
+          "description": "Aktualisierter Gutscheincode."
+        },
+        "redeem_online_url": {
+          "name": "Online-Einlöse-URL",
+          "description": "Aktualisierte Einlöse-URL."
+        },
+        "terms_conditions": {
+          "name": "Allgemeine Geschäftsbedingungen",
+          "description": "Aktualisierte AGB."
+        }
+      }
+    },
+    "delete_post": {
+      "name": "Beitrag löschen",
+      "description": "Löscht einen Beitrag aus deinem Google Business Profile.",
+      "fields": {
+        "config_entry_id": {
+          "name": "Konfigurationseintrag",
+          "description": "Der Google-Business-Konfigurationseintrag (Standort), zu dem dieser Beitrag gehört."
+        },
+        "post_name": {
+          "name": "Beitragsname",
+          "description": "Der Ressourcenname des zu löschenden Beitrags (z. B. 'accounts/123/locations/456/localPosts/789')."
+        }
+      }
+    }
+  }
+}

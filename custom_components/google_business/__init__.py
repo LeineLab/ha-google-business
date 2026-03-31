@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import logging
 import time
+from dataclasses import dataclass
 from datetime import timedelta
 from typing import Any
 
@@ -38,17 +39,11 @@ _RESOLVE_RETRY_INTERVAL = 3600  # seconds between Google API calls while waiting
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
-class GoogleBusinessCoordinator(DataUpdateCoordinator):
-    """Polls the reviews endpoint once per hour for aggregate rating data."""
+class GoogleBusinessReviewsCoordinator(DataUpdateCoordinator):
+    """Polls the reviews endpoint once per hour."""
 
     def __init__(self, hass: HomeAssistant, api: GoogleBusinessAPI) -> None:
-        """Initialize coordinator."""
-        super().__init__(
-            hass,
-            _LOGGER,
-            name=DOMAIN,
-            update_interval=timedelta(hours=1),
-        )
+        super().__init__(hass, _LOGGER, name=f"{DOMAIN}_reviews", update_interval=timedelta(hours=1))
         self.api = api
 
     async def _async_update_data(self) -> dict:
@@ -56,6 +51,28 @@ class GoogleBusinessCoordinator(DataUpdateCoordinator):
             return await self.api.fetch_reviews(page_size=1)
         except GoogleBusinessError as err:
             raise UpdateFailed(str(err)) from err
+
+
+class GoogleBusinessInfoCoordinator(DataUpdateCoordinator):
+    """Polls business info (phone, address, website, status) every 12 hours."""
+
+    def __init__(self, hass: HomeAssistant, api: GoogleBusinessAPI) -> None:
+        super().__init__(hass, _LOGGER, name=f"{DOMAIN}_info", update_interval=timedelta(hours=12))
+        self.api = api
+
+    async def _async_update_data(self) -> dict:
+        try:
+            return await self.api.fetch_business_info()
+        except GoogleBusinessError as err:
+            raise UpdateFailed(str(err)) from err
+
+
+@dataclass
+class GoogleBusinessRuntimeData:
+    """Runtime data stored on the config entry."""
+
+    reviews: GoogleBusinessReviewsCoordinator
+    info: GoogleBusinessInfoCoordinator
 
 
 async def async_setup(hass: HomeAssistant, config: dict) -> bool:
@@ -73,12 +90,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     if not location_name:
         location_name = await _resolve_location(hass, entry, oauth_session)
     api = GoogleBusinessAPI(oauth_session, location_name)
-    coordinator = GoogleBusinessCoordinator(hass, api)
-    await coordinator.async_refresh()
+    reviews_coordinator = GoogleBusinessReviewsCoordinator(hass, api)
+    info_coordinator = GoogleBusinessInfoCoordinator(hass, api)
+    await reviews_coordinator.async_refresh()
+    await info_coordinator.async_refresh()
 
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = api
-    entry.runtime_data = coordinator
+    entry.runtime_data = GoogleBusinessRuntimeData(reviews=reviews_coordinator, info=info_coordinator)
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 

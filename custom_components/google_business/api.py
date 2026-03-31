@@ -118,3 +118,13 @@ class GoogleBusinessAPI:
         """Fetch reviews for the configured location. Returns aggregate fields plus latest reviews."""
         url = f"{API_BASE}{self.location_name}/reviews"
         return await self._request("GET", url, params={"pageSize": page_size})
+
+    async def fetch_business_info(self) -> dict:
+        """Fetch business details (phone, address, website, open status)."""
+        # Business Information API uses the short name "locations/{id}", not the full path.
+        short_name = self.location_name.split("/", 2)[2]
+        url = f"{BUSINESS_INFO_BASE}{short_name}"
+        return await self._request(
+            "GET", url,
+            params={"readMask": "phoneNumbers,websiteUri,storefrontAddress,profile,openInfo"},
+        )

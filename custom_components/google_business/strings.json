@@ -27,6 +27,27 @@
       "reauth_successful": "Re-authentication was successful."
     }
   },
+  "entity": {
+    "sensor": {
+      "average_rating": {
+        "name": "Average Rating"
+      },
+      "review_count": {
+        "name": "Review Count"
+      },
+      "latest_review": {
+        "name": "Latest Review"
+      },
+      "status": {
+        "name": "Status",
+        "state": {
+          "open": "Open",
+          "closed_temporarily": "Closed temporarily",
+          "closed_permanently": "Closed permanently"
+        }
+      }
+    }
+  },
   "application_credentials": {
     "description": "To use Google Business Profile, you need OAuth 2.0 credentials from the [Google Cloud Console]({api_console_url}).\n\n1. Create or select a project\n2. Enable the **My Business API** and **Business Account Management API**\n3. Create an **OAuth 2.0 Client ID** (Web application type)\n4. Add `{redirect_url}` as an authorized redirect URI\n5. Copy the Client ID and Client Secret below"
   },
